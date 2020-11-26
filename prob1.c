@@ -10,7 +10,7 @@ struct book{
 };
 
 Book *addBook(char *rawCsv){
-	printf("[DEBUG] %s\n", rawCsv);
+	//printf("[DEBUG] %s\n", rawCsv);
 	Book *b = (Book*)calloc(1,sizeof(Book));
 	char *token = NULL;
 	token = strtok(rawCsv, ",");
@@ -26,13 +26,13 @@ Book *addBook(char *rawCsv){
 }
 void freeList(Book* head2)
 {
-   Book* tmp;
 
    while (head2 != NULL)
     {
-       tmp = head2;
        head2 = head2->next;
-       free(tmp);
+       free(head2->title);
+       free(head2->author);	   
+       free(head2);
     }
 
 }
@@ -122,7 +122,7 @@ int main(int argc, char **argv){
 	   free(current->author);
        
     }
-	freeList(head);
+    freeList(head);
 	
 	
 
