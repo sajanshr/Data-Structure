@@ -10,31 +10,19 @@ struct book{
 };
 
 Book *addBook(char *rawCsv){
-	//printf("[DEBUG] %s\n", rawCsv);
+
 	Book *b = (Book*)calloc(1,sizeof(Book));
 	char *token = NULL;
 	token = strtok(rawCsv, ",");
 	b->title = strdup(token);
-	//b->title = token;
+
 	
 	token = strtok(NULL, ",");
 	b->author = strdup(token);
-	//b->author = token;
+
 	return b;
 	
 	
-}
-void freeList(Book* head2)
-{
-
-   while (head2 != NULL)
-    {
-       head2 = head2->next;
-       free(head2->title);
-       free(head2->author);	   
-       free(head2);
-    }
-
 }
 
 
@@ -54,7 +42,7 @@ void findBooks(char *authorname, Book *b1){
 		if(strcmp(authorname, (b1->author))==0){
 			sameAuthorBooks = (Book*)calloc(1,sizeof(Book));
 			sameAuthorBooks -> title = strdup(b1->title);
-			//printf("%s\n", b1->title);
+		
 			if(head1 ==NULL){
 				head1 = sameAuthorBooks; 
 				temp1 = head1;
@@ -73,10 +61,10 @@ void findBooks(char *authorname, Book *b1){
        temp1 = head1;
        head1 = head1->next;
 	   free(temp1->title);
+	   free(temp1);
        
     }
 	
-	freeList(head1);
 		
 }
 
@@ -96,19 +84,16 @@ int main(int argc, char **argv){
 		if (head == NULL) {
 			head = addBook(buffer);
 			current = head;
-			//printf("[DEBUG] %s\n", current->title);
-			//printf("[DEBUG] %s\n", current->author);
+		
 			
 		} else {
 			current->next = addBook(buffer);
 			current = current->next;
-			//printf("[DEBUG] %s\n", current->title);
-			//printf("[DEBUG] %s\n", current->author);
+		
 		}
 		
 	}
 	current = head;
-	//traverse(current);
 	printf("Enter author: ");
 	fgets(buffer, 128, stdin);
 	buffer[strlen(buffer)-1] = 0;
@@ -120,9 +105,10 @@ int main(int argc, char **argv){
        head= head->next;
 	   free(current->title);
 	   free(current->author);
+	   free(current);
        
     }
-    freeList(head);
+	
 	
 	
 
